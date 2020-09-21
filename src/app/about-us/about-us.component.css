@@ -1,0 +1,8 @@
+.jumbotron {
+    position: relative;
+    background: #000 url("https://cdn.pixabay.com/photo/2020/08/25/00/48/mountains-5515324_1280.jpg") center center;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 60%;
+}

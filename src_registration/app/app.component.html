@@ -1,0 +1,101 @@
+<br>
+<div class="container-fluid col-md-6">
+ 
+  <h2>Registration Form</h2>
+  <br>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+    {{registrationForm.value | json}} <br> <br>
+
+    <div class="form-group">
+      <label>Username</label>
+      <input [class.is-invalid]="userName.invalid && userName.touched" formControlName="userName" type="text" class="form-control">
+      
+      <!-- <small [class.d-none]="userName.valid || userName.untouched" class="text-danger">Username is required</small> -->
+                
+      <div *ngIf="userName.invalid && userName.touched">
+          <small *ngIf="userName.errors?.required" class="text-danger">Username is required</small>
+          <small *ngIf="userName.errors?.minlength" class="text-danger">Username must be at least 5 characters</small>
+          <small *ngIf="userName.errors?.forbiddenName" class="text-danger">
+            {{userName.errors?.forbiddenName.value}} Username not allowed</small>
+      </div> 
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input [class.is-invalid]="password.invalid && password.touched" formControlName="password" type="password" class="form-control">
+    
+      <div *ngIf="password.invalid && password.touched">
+        <small *ngIf="password.errors?.required" class="text-danger">Password is required</small>
+        <small *ngIf="password.errors?.pattern" class="text-danger">Password must be 6 to 14 characters <br> 
+        Password must contains at least 1 uppercase, lowercase, number & special characters like ($, @)                                 </small>
+        <small *ngIf="password.errors?.forbiddenName" class="text-danger">
+        {{password.errors?.forbiddenName.value}} Password not allowed</small>
+      </div> 
+    </div>
+    
+    <div class="form-group">
+      <label>Email ID</label>
+      <button type="button" class="btn btn-secondary btn-sm m-2" (click)="addAlternateEmail()">Add Email-ID</button>
+      <input [class.is-invalid]="emailId.invalid && emailId.touched" formControlName="emailId" type="email" class="form-control">
+      <small [class.d-none]="emailId.valid || emailId.untouched" class="text-danger">Email is required</small>
+      <div  formArrayName="alternateEmails" *ngFor="let emailId of alternateEmails.controls; let i=index;">
+        <input type="text" class="form-control my-1" [formControlName]="i">
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input formControlName="subscribe" type="checkbox" class="form-check-input">
+      <label>Send me promotional offers</label>
+    </div>
+
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input [class.is-invalid]="registrationForm.errors?.misMatch" formControlName="confirmPassword" type="password" class="form-control">
+      <small class="text-danger" *ngIf="registrationForm.errors?.misMatch">Password do not match</small>
+    </div>
+
+    <div class="form-group">
+      <label>Contact Number</label>
+      <div *ngIf="contactNumber.invalid && contactNumber.touched">
+        <input [class.is-invalid]="contactNumber.invalid && contactNumber.touched" formControlName="contactNumber" type="text" class="form-control">
+        <small *ngIf="contactNumber.errors?.required"  class="text-danger">Contact Number is required</small>
+        <small *ngIf="contactNumber.errors?.minlength" class="text-danger">Contact Number must be 10 numbers</small>
+      </div>
+    </div>
+
+    <div formGroupName="address">
+
+      <div class="form-group">
+        <label>City</label>
+        <input formControlName="city" type="text" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>State</label>
+        <input formControlName="state" type="text" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Nation</label>
+        <input formControlName="nation" type="text" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Postal Code</label>
+        <input formControlName="postalCode" type="text" class="form-control">
+      </div>
+
+    </div>
+
+    <div class="form-group">
+      <label>Submission Date</label>
+      <input formControlName="submittedDate" type="datetime-local" class="form-control">
+    </div>
+
+    <button [disabled]='!registrationForm.valid' class="btn btn-primary" type="submit">Register</button>
+    <button (click)="loadApiData()" class="btn btn-secondary ml-2" type="button">Load API Data</button>
+
+  </form>
+
+</div>
